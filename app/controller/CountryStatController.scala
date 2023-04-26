@@ -1,22 +1,22 @@
 package controller
 
-import javax.inject._
-import scala.concurrent.ExecutionContext
-import play.api.libs.json._
-import play.api.mvc._
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import repository.CovidRepository
-import service.CovidService
-import com.innowise.api.model.CovidDataByDate
+import play.api.libs.json._
+import play.api.mvc._
+import repository.CountryStatRepository
+import service.CountryStatService
+
+import javax.inject._
+import scala.concurrent.ExecutionContext
 
 @Singleton
-class CovidController @Inject()(val controllerComponents: ControllerComponents)(implicit ec: ExecutionContext) extends BaseController {
+class CountryStatController @Inject()(val controllerComponents: ControllerComponents)(implicit ec: ExecutionContext) extends BaseController {
 
-  private val repository = new CovidRepository[IO]()
-  private val covidService = new CovidService(repository)
+  private val repository = new CountryStatRepository[IO]()
+  private val covidService = new CountryStatService(repository)
 
-  def getCovidData(): Action[JsValue] = Action.async(parse.json) { implicit request =>
+  def getCovidData: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val countryList = (request.body \ "countryList").as[List[String]]
     val fromDate = (request.body \ "fromDate").as[String]
     val toDate = (request.body \ "toDate").as[String]

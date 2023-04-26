@@ -1,25 +1,25 @@
 package service
 
+import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import cats.effect.{Async, IO}
-import com.innowise.api.model.CovidDataByDate
-import repository.CovidRepository
+import cats.syntax.parallel._
+import repository.CountryStatRepository
 
 import java.time.LocalDate
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
-class CovidService(repository: CovidRepository[IO])(implicit ec: ExecutionContext) {
+class CountryStatService(repository: CountryStatRepository[IO])() {
 
   def getMaxAndMinCasesByCountryAndDateRange(countries: Seq[String], startDate: String, endDate: String): Future[Seq[(String, Int, Int)]] = {
-    val futures = countries.map { country =>
-      val start = LocalDate.parse(startDate)
-      val end = LocalDate.parse(endDate)
+    val start = LocalDate.parse(startDate)
+    val end = LocalDate.parse(endDate)
+
+    countries.parTraverse { country =>
       repository.getCasesByDate(country, start, end).map { dataList =>
         val maxCases = dataList.map(_.cases).max
         val minCases = dataList.map(_.cases).min
         (country, maxCases, minCases)
-      }.unsafeToFuture()
-    }
-    Future.sequence(futures)
+      }
+    }.unsafeToFuture()
   }
 }

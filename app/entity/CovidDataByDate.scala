@@ -1,5 +1,4 @@
-package com.innowise.api
-package model
+package entity
 
 import io.circe.{Decoder, HCursor}
 

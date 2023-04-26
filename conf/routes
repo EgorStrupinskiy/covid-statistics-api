@@ -3,7 +3,8 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /                   controller.CovidController.getCovidData()
+# Get covid cases for a list of countries in time period
+GET     /statistics                  controller.CountryStatController.getCovidData()
 
-# Map static resources from the /public folder to the /assets URL path
+# Get full list of available countries
+GET     /countries                  controller.CountryController.getCountries()

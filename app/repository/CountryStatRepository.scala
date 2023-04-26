@@ -1,15 +1,8 @@
 package repository
 
-import cats.effect.{Async, IO, Resource, Sync}
-import cats.implicits.{toFlatMapOps, toFunctorOps}
-import com.innowise.api.model.CovidDataByDate
+import cats.effect.Sync
+import entity.CovidDataByDate
 import io.circe.parser.decode
-import io.circe.generic.auto._
-import org.asynchttpclient.AsyncHttpClient
-import org.http4s.blaze.client.BlazeClientBuilder
-import org.http4s.client.Client
-import play.shaded.ahc.org.asynchttpclient.AsyncHttpClient
-import sttp.client3.{SttpBackend, UriContext, asStringAlways, basicRequest}
 
 import java.net.{HttpURLConnection, URL}
 import java.time.LocalDate
@@ -17,7 +10,7 @@ import java.time.format.DateTimeFormatter
 import scala.concurrent.ExecutionContext
 import scala.io.Source
 
-class CovidRepository[F[_]: Sync](implicit ec: ExecutionContext) {
+class CountryStatRepository[F[_] : Sync](implicit ec: ExecutionContext) {
   private val baseUrl = "https://api.covid19api.com"
 
   def getCasesByDate(country: String, startDate: LocalDate, endDate: LocalDate): F[List[CovidDataByDate]] = {
