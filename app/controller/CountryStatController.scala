@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext
 class CountryStatController @Inject()(val controllerComponents: ControllerComponents)(implicit ec: ExecutionContext) extends BaseController {
 
   private val repository = new CountryStatRepository[IO]()
-  private val covidService = new CountryStatService(repository)
+  private val covidService = new CountryStatService(repository)()
 
   def getCovidData: Action[JsValue] = Action.async(parse.json) { implicit request =>
     val countryList = (request.body \ "countryList").as[List[String]]
