@@ -6,6 +6,8 @@ version := "1.0-SNAPSHOT"
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.13.10"
+libraryDependencies += guice
+resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.5.0",
@@ -25,10 +27,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-serialization-jackson" % "2.8.0",
   "ch.qos.logback" % "logback-classic" % "1.4.6",
   "com.google.inject" % "guice" % "5.1.0",
-"com.typesafe.play" %% "play-ws" % "2.8.18",
+  "com.typesafe.play" %% "play-ws" % "2.8.18",
   "org.typelevel" %% "cats-core" % "2.9.0",
-"org.typelevel" %% "cats-effect" % "3.4.8",
-"org.typelevel" %% "cats-core" % "2.9.0",
+  "org.typelevel" %% "cats-effect" % "3.4.8",
+  "org.typelevel" %% "cats-core" % "2.9.0",
   "org.http4s" %% "http4s-blaze-server" % "1.0.0-M29",
   "org.http4s" %% "http4s-circe" % "1.0.0-M29",
   "org.http4s" %% "http4s-dsl" % "1.0.0-M29",
@@ -61,5 +63,11 @@ libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client3" %% "circe" % "3.8.15",
   "com.softwaremill.sttp.client3" %% "async-http-client-backend-fs2" % "3.8.15",
   "org.typelevel" %% "cats-effect-testing-scalatest" % "1.4.0" % Test,
-  "org.typelevel" %% "cats-effect" % "3.4.8")
+  "org.typelevel" %% "cats-effect" % "3.4.8",
+  //////////
+
+)
+// https://mvnrepository.com/artifact/org.http4k/http4k-core
+libraryDependencies += "org.http4k" % "http4k-core" % "4.43.0.0"
+
 

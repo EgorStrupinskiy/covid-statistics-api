@@ -4,7 +4,7 @@
 # ~~~~
 
 # Get covid cases for a list of countries in time period
-GET     /statistics                  controller.CountryStatController.getCovidData()
+POST     /statistics              controller.CountryStatController.getCovidDataByDateRange()
 
 # Get full list of available countries
 GET     /countries                  controller.CountryController.getCountries()
