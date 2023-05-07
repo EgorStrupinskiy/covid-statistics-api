@@ -6,6 +6,14 @@ case class CovidDataByDate(country: String, date: String, cases: Int)
 
 object CovidDataByDate {
 
+  // Convert CovidDataByDate from JSON
+  implicit val decoder: Decoder[CovidDataByDate] = (c: HCursor) =>
+    for {
+      country <- c.downField("Country").as[String]
+      date <- c.downField("Date").as[String]
+      cases <- c.downField("Cases").as[Int]
+    } yield CovidDataByDate(country, date, cases)
+
   // Convert CovidDataByDate to JSON
   implicit val encoder: Encoder[CovidDataByDate] = (covidData: CovidDataByDate) =>
     Json.obj(
@@ -14,11 +22,4 @@ object CovidDataByDate {
       ("Cases", Json.fromInt(covidData.cases))
     )
 
-  // Convert CovidDataByDate from JSON
-  implicit val decoder: Decoder[CovidDataByDate] = (c: HCursor) =>
-    for {
-      country <- c.downField("Country").as[String]
-      date <- c.downField("Date").as[String]
-      cases <- c.downField("Cases").as[Int]
-    } yield CovidDataByDate(country, date, cases)
 }
